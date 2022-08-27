@@ -1,20 +1,38 @@
+import {
+  Box,
+  CssBaseline,
+  Paper,
+  ThemeProvider,
+  Typography,
+} from "@mui/material";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { theme } from "./themes/theme";
+import { routes as appRoutes } from "./routes";
+
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Box
+          height="100vh"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          flexDirection="column"
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <Router>
+            <Routes>
+              {appRoutes.map((route) => (
+                <Route
+                  key={route.key}
+                  path={route.path}
+                  element={<route.component />}
+                />
+              ))}
+            </Routes>
+          </Router>
+        </Box>
+    </ThemeProvider>
   );
 }
 

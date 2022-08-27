@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSelector, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../../../store'
 
@@ -25,7 +25,4 @@ export const userSlice = createSlice({
 })
 
 export const { setAuthorized } = userSlice.actions
-
-// Other code such as selectors can use the imported `RootState` type
-export const getUserAuthorized = (state: RootState) => state.user.authorized
 export default userSlice.reducer
