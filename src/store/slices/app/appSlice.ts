@@ -78,7 +78,7 @@ export interface AppState {
 
 const initialState: AppState = {
   loading: true,
-  selectedCategory: 'films',
+  selectedCategory: 'planets',
   categories: [
     'films',
     'people',

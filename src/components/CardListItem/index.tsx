@@ -4,6 +4,7 @@ import { FC } from 'react';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { useAppDispatch } from '../../hooks';
 import { setSelectedUrl } from '../../store/slices/app/appSlice';
+import { useNavigate } from 'react-router-dom';
 interface ICardListItemProps {
   item: any;
 }
@@ -12,12 +13,16 @@ const CardListItem: FC<ICardListItemProps> = (props) => {
   const { item } = props;
 
   const dispatch = useAppDispatch();
+  let navigate = useNavigate();
 
   const getTitle = () => {
     return item.name || item.title;
   };
 
-  const onDetailsClick = (url:string) => dispatch(setSelectedUrl(url))
+  const onDetailsClick = (url: string) => {
+    dispatch(setSelectedUrl(url));
+    navigate('/details');
+  };
 
   return (
     <Grid
@@ -53,7 +58,9 @@ const CardListItem: FC<ICardListItemProps> = (props) => {
             },
           }}
           size='small'
-          onClick={() => {onDetailsClick(item.url)}}
+          onClick={() => {
+            onDetailsClick(item.url);
+          }}
         >
           <NavigateNextIcon />
         </IconButton>

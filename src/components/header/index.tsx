@@ -89,7 +89,6 @@ const Header: FC<IHeaderProps> = (props): ReactElement => {
   };
 
   useEffect(() => {
-    if (!debouncedValue) return;
     debounceSearch();
   }, [debouncedValue]);
 
