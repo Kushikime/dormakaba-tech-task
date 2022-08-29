@@ -17,9 +17,11 @@ const getCategoryData = createAsyncThunk(
 );
 const getCategoryNextPageData = createAsyncThunk(
   `app/getCategoryNextData`,
-  async (data: {category: string, page: number}, { getState }) => {
+  async (arg, { getState }) => {
     const state: any = getState();
-    return await axios.get(`${baseUrl}/${data.category}/?page=${data.page}`);
+    let selected = state.app.selectedCategory;
+    let next = state.app[selected].next;
+    return await axios.get(next);
   }
 );
 
@@ -27,8 +29,15 @@ const getCategoryDataBySearch = createAsyncThunk(
   `app/searchCategoryData`,
   async (arg, { getState }) => {
     const state: any = getState();
-    return await axios.get(`${baseUrl}/${state.app.selectedCategory}/?search=${state.app.searchQuery}`);
+    return await axios.get(
+      `${baseUrl}/${state.app.selectedCategory}/?search=${state.app.searchQuery}`
+    );
   }
 );
 
-export { getCategories, getCategoryData, getCategoryNextPageData, getCategoryDataBySearch };
+export {
+  getCategories,
+  getCategoryData,
+  getCategoryNextPageData,
+  getCategoryDataBySearch,
+};

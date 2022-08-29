@@ -4,22 +4,23 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import CardListItem from '../CardListItem';
 
 import { getCategoryNextPageData } from '../../store/slices/app/actions';
+import { setCurrentPage } from '../../store/slices/app/appSlice';
 
 interface ICardListProps {
   items: any[];
   currentPage: number;
   totalPages: number;
-  handlePagination: (page: number) => void;
 }
 
 const CardList: FC<ICardListProps> = (props) => {
-  const { currentPage, items, totalPages, handlePagination } = props;
+  const { currentPage, items, totalPages } = props;
   const fetching = useAppSelector((state) => state.app.fetching);
   const dispatch = useAppDispatch();
-  const selectedCategory = useAppSelector(
-    (state) => state.app.selectedCategory
-  );
   const listRef = useRef<HTMLDivElement>(null);
+
+  const loadNextData = () => {
+    dispatch(getCategoryNextPageData());
+  };
 
   const handleScroll = () => {
     if (currentPage >= totalPages) return;
@@ -28,25 +29,11 @@ const CardList: FC<ICardListProps> = (props) => {
       const scroll = scrollHeight - scrollTop - clientHeight;
 
       if (scroll < 10 && currentPage < totalPages && !fetching) {
-        handlePagination(currentPage + 1);
+        dispatch(setCurrentPage(currentPage + 1));
+        loadNextData();
       }
     }
   };
-
-  const loadNextData = () => {
-    const data = {
-      page: currentPage,
-      category: selectedCategory,
-    };
-
-    dispatch(getCategoryNextPageData(data));
-  };
-
-  useEffect(() => {
-    if (currentPage > 1 && currentPage < totalPages && !fetching) {
-      loadNextData();
-    }
-  }, [currentPage]);
 
   useEffect(() => {
     handleScroll();
@@ -67,9 +54,8 @@ const CardList: FC<ICardListProps> = (props) => {
       <Grid
         container
         columns={12}
-        spacing={3}
+        spacing={2}
         sx={{ overflowY: 'scroll' }}
-        pr={'10px'}
         ref={listRef}
         component={'div'}
         onScroll={handleScroll}

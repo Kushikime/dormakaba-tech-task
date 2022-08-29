@@ -1,22 +1,14 @@
-import { ChangeEvent, FC } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks";
-import { filmsSelector, speciesSelector } from "../../hooks/selectors";
-import { setSpeciesPage } from "../../store/slices/app/appSlice";
-import CardList from "../CardList";
+import { FC } from 'react';
+import { useAppSelector } from '../../hooks';
+import { speciesSelector } from '../../hooks/selectors';
+import CardList from '../CardList';
 
 interface IPeopleListProps {}
 
 const SpeciesList: FC<IPeopleListProps> = (props) => {
-  const dispatch = useAppDispatch();
   const species = useAppSelector((state) => speciesSelector(state));
 
-  const handlePagination = (page: number) => {
-    dispatch(setSpeciesPage(page))
-  }
-
-  return (
-    <CardList {...species} handlePagination={handlePagination} />
-  )
-}
+  return <CardList {...species} />;
+};
 
 export default SpeciesList;

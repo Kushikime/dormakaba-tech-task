@@ -1,4 +1,4 @@
-import React, { ReactElement, FC, useEffect } from 'react';
+import React, { ReactElement, FC, useEffect, useId } from 'react';
 import { Box, Button, Grid, IconButton, Typography } from '@mui/material';
 import { ProtectedRoute } from './ProtectedRoute';
 import { Link, useNavigate } from 'react-router-dom';
@@ -10,6 +10,7 @@ interface IDetailsPageProps {}
 
 const Details: FC<IDetailsPageProps> = (): ReactElement => {
   let navigate = useNavigate();
+  let id = useId();
 
   const onBackClick = () => navigate(-1);
   const selectedCategory = useAppSelector(
@@ -32,10 +33,6 @@ const Details: FC<IDetailsPageProps> = (): ReactElement => {
     getData();
   }, []);
 
-  useEffect(() => {
-    console.log('NEW DATA: ', apiData);
-  }, [apiData]);
-
   return (
     <ProtectedRoute>
       <Box
@@ -54,7 +51,7 @@ const Details: FC<IDetailsPageProps> = (): ReactElement => {
             flexGrow: 1,
             width: '100%',
             display: 'flex',
-            overflow: 'hidden',
+            overflow: 'scroll',
             flexDirection: 'column',
             alignItems: 'center',
             backgroundColor: 'rgba(0,0,0,0.05)',
@@ -92,10 +89,26 @@ const Details: FC<IDetailsPageProps> = (): ReactElement => {
                 display='flex'
                 width='100%'
                 py='10px'
-                key={`${index}_${'ss'}`}
+                key={`${index}_${id}`}
               >
                 <Typography>{key}:</Typography>
-                <Typography ml='20px'>{apiData[key]}</Typography>
+                {Array.isArray(apiData[key]) ? (
+                  <Box width='100%'>
+                    {apiData[key].map((item: any, index: number) => {
+                      return (
+                        <Typography key={`${item}_${index}`} ml='20px'>
+                          {item},
+                        </Typography>
+                      );
+                    })}
+                  </Box>
+                ) : (
+                  <Typography ml='20px'>
+                    {key === 'created' || key === 'edited'
+                      ? new Date(apiData[key]).toLocaleString()
+                      : apiData[key]}
+                  </Typography>
+                )}
               </Grid>
             ))
           ) : (

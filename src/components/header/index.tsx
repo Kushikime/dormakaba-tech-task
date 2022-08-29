@@ -3,19 +3,11 @@ import {
   Box,
   Button,
   IconButton,
-  Input,
   InputBase,
   Toolbar,
   Typography,
 } from '@mui/material';
-import {
-  ChangeEvent,
-  FC,
-  ReactElement,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import { ChangeEvent, FC, ReactElement, useEffect, useState } from 'react';
 
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -145,7 +137,7 @@ const Header: FC<IHeaderProps> = (props): ReactElement => {
                 </SearchIconWrapper>
                 <StyledInputBase
                   value={searchValue}
-                  onChange={handleSearch}
+                  onInput={handleSearch}
                   placeholder='Search…'
                   inputProps={{ 'aria-label': 'search' }}
                 />

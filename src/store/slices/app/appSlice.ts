@@ -131,7 +131,7 @@ const initialState: AppState = {
     currentPage: 1,
   },
   fetching: true,
-  selectedUrl: ''
+  selectedUrl: '',
 };
 
 export const appSlice = createSlice({
@@ -144,23 +144,9 @@ export const appSlice = createSlice({
     setSelectedCategory: (state, action: PayloadAction<categoriesType>) => {
       state.selectedCategory = action.payload;
     },
-    setFilmsPage: (state, action: PayloadAction<number>) => {
-      state.films.currentPage = action.payload;
-    },
-    setPeoplePage: (state, action: PayloadAction<number>) => {
-      state.people.currentPage = action.payload;
-    },
-    setPlanetsPage: (state, action: PayloadAction<number>) => {
-      state.planets.currentPage = action.payload;
-    },
-    setStarshipsPage: (state, action: PayloadAction<number>) => {
-      state.starships.currentPage = action.payload;
-    },
-    setSpeciesPage: (state, action: PayloadAction<number>) => {
-      state.species.currentPage = action.payload;
-    },
-    setVehiclesPage: (state, action: PayloadAction<number>) => {
-      state.vehicles.currentPage = action.payload;
+    setCurrentPage: (state, action: PayloadAction<number>) => {
+      let selected = state.selectedCategory;
+      state[selected].currentPage = action.payload;
     },
     setSearchQuery: (state, action: PayloadAction<string>) => {
       state.searchQuery = action.payload;
@@ -173,7 +159,6 @@ export const appSlice = createSlice({
     builder.addCase(getCategories.fulfilled, (state, action: any) => {
       const { data } = action.payload;
       const categories: any = Object.keys(data);
-      state.selectedCategory = 'films';
       state.categories = categories;
       state.fetching = false;
     });
@@ -190,6 +175,7 @@ export const appSlice = createSlice({
       state[selected].items = [...state[selected].items, ...results];
       state[selected].next = next;
       state[selected].count = count;
+      state[selected].currentPage = 1;
       state[selected].totalPages = Math.ceil(count / 10);
     });
     builder.addCase(getCategoryNextPageData.pending, (state, action) => {
@@ -199,8 +185,9 @@ export const appSlice = createSlice({
       state.fetching = false;
     });
     builder.addCase(getCategoryNextPageData.fulfilled, (state, action: any) => {
-      const { results } = action.payload.data;
+      const { results, next } = action.payload.data;
       let selected = state.selectedCategory;
+      state[selected].next = next;
       state[selected].items = [...state[selected].items, ...results];
       state.fetching = false;
     });
@@ -217,6 +204,7 @@ export const appSlice = createSlice({
       let selected = state.selectedCategory;
       state[selected].items = [...results];
       state[selected].count = count;
+      state[selected].next = next;
       state[selected].currentPage = 1;
       state[selected].totalPages = Math.ceil(count / 10);
       state.fetching = false;
@@ -230,14 +218,9 @@ export const appSlice = createSlice({
 export const {
   setAppLoading,
   setSelectedCategory,
-  setFilmsPage,
-  setPeoplePage,
-  setPlanetsPage,
-  setSpeciesPage,
-  setStarshipsPage,
-  setVehiclesPage,
   setSearchQuery,
-  setSelectedUrl
+  setSelectedUrl,
+  setCurrentPage,
 } = appSlice.actions;
 
 export const getAppLoading = (state: RootState) => state.app.loading;

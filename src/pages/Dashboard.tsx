@@ -59,6 +59,7 @@ const Dashboard: FC<IDashboardPageProps> = (): ReactElement => {
           alignItems: 'center',
           px: '25px',
           py: '25px',
+          maxWidth: '1600px'
         }}
       >
         <Filter />
