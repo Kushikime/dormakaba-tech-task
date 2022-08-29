@@ -1,7 +1,6 @@
 import {
   Box,
   Divider,
-  ImageListItem,
   List,
   ListItem,
   ListItemButton,
@@ -10,7 +9,6 @@ import {
   Typography,
 } from '@mui/material';
 import { FC } from 'react';
-import { Link } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { setAppLoading } from '../../store/slices/app/appSlice';
 import { setAuthorized } from '../../store/slices/user/userSlice';
@@ -27,7 +25,7 @@ export const DrawerContent: FC<IDrawerContentProps> = (props) => {
   const logout = () => {
     dispatch(setAppLoading(true));
     dispatch(setAuthorized(false));
-  }
+  };
 
   return (
     <Box onClick={toggleDrawer} sx={{ textAlign: 'center' }}>

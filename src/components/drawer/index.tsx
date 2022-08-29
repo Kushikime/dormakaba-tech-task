@@ -1,12 +1,6 @@
 import {
   Box,
-  Divider,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Typography,
+  Drawer
 } from '@mui/material';
 import { FC, ReactElement } from 'react';
 import { DrawerContent } from './DrawerContent';

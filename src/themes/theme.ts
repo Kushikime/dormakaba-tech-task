@@ -1,22 +1,21 @@
-import { createTheme } from "@mui/material";
-// rgb(0 0 0 / 8%) 0 1px; borders
+import { createTheme } from '@mui/material';
 export const theme = createTheme({
   palette: {
     primary: {
-      light: "#0056d7",
-      main: "#fff",
-      dark: "#003b93",
-      contrastText: "#000"
+      light: '#0056d7',
+      main: '#fff',
+      dark: '#003b93',
+      contrastText: '#000',
     },
     secondary: {
-      main: "#000",
-      light: "#82e9de",
-      dark: "#00867d",
-      contrastText: "#000",
+      main: '#000',
+      light: '#82e9de',
+      dark: '#00867d',
+      contrastText: '#000',
     },
     text: {
-      primary: "#202020",
-      secondary: "#333533",
+      primary: '#202020',
+      secondary: '#333533',
     },
   },
   breakpoints: {
@@ -29,9 +28,9 @@ export const theme = createTheme({
     },
   },
   shape: {
-    borderRadius: 4
+    borderRadius: 4,
   },
   typography: {
-    fontFamily: ["poppins", "poppinsSemi", "sans-serif"].join(","),
+    fontFamily: ['poppins', 'poppinsSemi', 'sans-serif'].join(','),
   },
 });

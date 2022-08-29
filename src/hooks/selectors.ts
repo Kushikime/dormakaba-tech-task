@@ -15,12 +15,11 @@ const speciesSelector = createSelector(specieItems, (items) => items);
 const starshipsSelector = createSelector(starshipItems, (items) => items);
 const vehiclesSelector = createSelector(vehicleItems, (items) => items);
 
-
 export {
-    filmsSelector,
-    peopleSelector,
-    planetsSelector,
-    speciesSelector,
-    starshipsSelector,
-    vehiclesSelector
-}
+  filmsSelector,
+  peopleSelector,
+  planetsSelector,
+  speciesSelector,
+  starshipsSelector,
+  vehiclesSelector,
+};

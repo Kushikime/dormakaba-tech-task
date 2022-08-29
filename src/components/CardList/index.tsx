@@ -1,5 +1,5 @@
 import { Box, Grid, Skeleton, Typography } from '@mui/material';
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import CardListItem from '../CardListItem';
 

@@ -1,4 +1,4 @@
-import { Button, styled, TextField, Typography, useTheme } from '@mui/material';
+import { Button } from '@mui/material';
 import { Box } from '@mui/system';
 import { FC, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -71,7 +71,7 @@ const Filter: FC<IFilterProps> = (props) => {
         flexWrap: 'wrap',
         gap: '10px',
         position: 'relative',
-        m: '20px 0'
+        m: '20px 0',
       }}
       component='div'
     >
@@ -92,8 +92,8 @@ const Filter: FC<IFilterProps> = (props) => {
                     : 'rgba(0, 0, 0, 0.05)',
                 color: selectedCategory === category ? 'white' : 'currentColor',
               },
-              "&:disabled": {
-                color: selectedCategory === category ? 'white' : ''
+              '&:disabled': {
+                color: selectedCategory === category ? 'white' : '',
               },
               color: selectedCategory === category ? 'white' : 'currentColor',
             }}

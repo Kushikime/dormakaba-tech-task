@@ -1,6 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { RootState } from '../../../store';
 
 const baseUrl: string = process.env.REACT_APP_SWAPI_URL!;
 

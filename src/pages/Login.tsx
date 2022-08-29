@@ -1,4 +1,4 @@
-import React, { ReactElement, FC, useEffect } from 'react';
+import { ReactElement, FC, useEffect } from 'react';
 import { Box } from '@mui/material';
 import LoginForm from '../components/LoginForm';
 import { Navigate } from 'react-router-dom';

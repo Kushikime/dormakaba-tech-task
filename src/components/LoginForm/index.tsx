@@ -1,4 +1,4 @@
-import { Button, styled, TextField, Typography, useTheme } from '@mui/material';
+import { Button, styled, useTheme } from '@mui/material';
 import { Box } from '@mui/system';
 import { FC, useEffect } from 'react';
 import { setAppLoading } from '../../store/slices/app/appSlice';
@@ -39,8 +39,7 @@ const LoginForm: FC<ILoginFormProps> = (props) => {
   const {
     reset,
     handleSubmit,
-    register,
-    formState: { isSubmitSuccessful, errors },
+    formState: { isSubmitSuccessful },
     setError,
   } = methods;
 

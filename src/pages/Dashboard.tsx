@@ -4,7 +4,6 @@ import { ProtectedRoute } from './ProtectedRoute';
 import { setAppLoading } from '../store/slices/app/appSlice';
 import Filter from '../components/Filter';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import CardList from '../components/CardList';
 import FilmsList from '../components/FilmsList';
 import PeopleList from '../components/PeopleList';
 import PlanetsList from '../components/PlanetsList';
@@ -16,7 +15,9 @@ interface IDashboardPageProps {}
 
 const Dashboard: FC<IDashboardPageProps> = (): ReactElement => {
   const dispatch = useAppDispatch();
-  const selectedCategory = useAppSelector((state) => state.app.selectedCategory)
+  const selectedCategory = useAppSelector(
+    (state) => state.app.selectedCategory
+  );
 
   useEffect(() => {
     setTimeout(() => {
@@ -24,27 +25,26 @@ const Dashboard: FC<IDashboardPageProps> = (): ReactElement => {
     }, 700);
   }, []);
 
-
   const renderList = () => {
     if (selectedCategory === 'films') {
-      return <FilmsList />
+      return <FilmsList />;
     }
     if (selectedCategory === 'people') {
-      return <PeopleList />
+      return <PeopleList />;
     }
     if (selectedCategory === 'planets') {
-      return <PlanetsList />
+      return <PlanetsList />;
     }
     if (selectedCategory === 'species') {
-      return <SpeciesList />
+      return <SpeciesList />;
     }
     if (selectedCategory === 'starships') {
-      return <StarshipsList />
+      return <StarshipsList />;
     }
     if (selectedCategory === 'vehicles') {
-      return <VehiclesList />
+      return <VehiclesList />;
     }
-  }
+  };
 
   return (
     <ProtectedRoute>
@@ -59,13 +59,11 @@ const Dashboard: FC<IDashboardPageProps> = (): ReactElement => {
           alignItems: 'center',
           px: '25px',
           py: '25px',
-          maxWidth: '1600px'
+          maxWidth: '1600px',
         }}
       >
         <Filter />
-        {
-          renderList()
-        }
+        {renderList()}
       </Box>
     </ProtectedRoute>
   );

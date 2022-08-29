@@ -1,7 +1,7 @@
 import React, { ReactElement, FC, useEffect, useId } from 'react';
-import { Box, Button, Grid, IconButton, Typography } from '@mui/material';
+import { Box, Grid, IconButton, Typography } from '@mui/material';
 import { ProtectedRoute } from './ProtectedRoute';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useAppSelector } from '../hooks';
 import axios from 'axios';
@@ -30,8 +30,12 @@ const Details: FC<IDetailsPageProps> = (): ReactElement => {
   };
 
   useEffect(() => {
-    getData();
-  }, []);
+    if(url) {
+      getData();
+      return
+    }
+    navigate('/')
+  }, [url]);
 
   return (
     <ProtectedRoute>
@@ -51,7 +55,7 @@ const Details: FC<IDetailsPageProps> = (): ReactElement => {
             flexGrow: 1,
             width: '100%',
             display: 'flex',
-            overflow: 'scroll',
+            overflowY: 'scroll',
             flexDirection: 'column',
             alignItems: 'center',
             backgroundColor: 'rgba(0,0,0,0.05)',

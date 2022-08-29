@@ -1,18 +1,15 @@
-import { createSelector, createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
-import { RootState } from '../../../store'
-
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
 // Define a type for the slice state
 interface UserState {
-  authorized: boolean
+  authorized: boolean;
 }
 
 // Define the initial state using that type
 const initialState: UserState = {
-  authorized: false
-}
-
+  authorized: false,
+};
 
 export const userSlice = createSlice({
   name: 'user',
@@ -20,10 +17,10 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setAuthorized: (state, action: PayloadAction<boolean>) => {
-      state.authorized = action.payload
-    }
+      state.authorized = action.payload;
+    },
   },
-})
+});
 
-export const { setAuthorized } = userSlice.actions
-export default userSlice.reducer
+export const { setAuthorized } = userSlice.actions;
+export default userSlice.reducer;

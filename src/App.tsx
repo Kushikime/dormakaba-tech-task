@@ -1,10 +1,4 @@
-import {
-  Box,
-  CssBaseline,
-  Paper,
-  ThemeProvider,
-  Typography,
-} from '@mui/material';
+import { Box, CssBaseline, ThemeProvider } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { theme } from './themes/theme';
 import { routes as appRoutes } from './routes';
@@ -14,7 +8,6 @@ import Preloader from './components/Preloader';
 import { useEffect } from 'react';
 import { setAppLoading } from './store/slices/app/appSlice';
 import { SnackbarProvider } from 'notistack';
-import { getCategories } from './store/slices/app/actions';
 import { useAppDispatch } from './hooks';
 
 function App() {
