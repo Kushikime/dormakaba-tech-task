@@ -10,7 +10,7 @@ interface UserState {
 
 // Define the initial state using that type
 const initialState: UserState = {
-  authorized: true
+  authorized: false
 }
 
 
