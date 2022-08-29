@@ -1,31 +1,244 @@
-import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
-import { RootState } from '../../../store'
+import { createSelector, createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../../../store';
+import {
+  getCategories,
+  getCategoryData,
+  getCategoryDataBySearch,
+  getCategoryNextPageData,
+} from './actions';
+import {
+  Film,
+  People,
+  Planet,
+  Specie,
+  Starship,
+  Vehicle,
+} from '../../../types/responseTypes'; //later change to ts decoarator @types
 
+export type categoriesType =
+  | 'films'
+  | 'people'
+  | 'planets'
+  | 'species'
+  | 'starships'
+  | 'vehicles';
 
 // Define a type for the slice state
-interface AppState {
-    loading: boolean
+export interface AppState {
+  loading: boolean;
+  selectedCategory: categoriesType;
+  categories: categoriesType[];
+  searchQuery: string;
+  films: {
+    count: number;
+    next: string;
+    items: Film[];
+    totalPages: number;
+    currentPage: number;
+  };
+  people: {
+    count: number;
+    next: string;
+    items: People[];
+    totalPages: number;
+    currentPage: number;
+  };
+  planets: {
+    count: number;
+    next: string;
+    items: Planet[];
+    totalPages: number;
+    currentPage: number;
+  };
+  species: {
+    count: number;
+    next: string;
+    items: Specie[];
+    totalPages: number;
+    currentPage: number;
+  };
+  starships: {
+    count: number;
+    next: string;
+    items: Starship[];
+    totalPages: number;
+    currentPage: number;
+  };
+  vehicles: {
+    count: number;
+    next: string;
+    items: Vehicle[];
+    totalPages: number;
+    currentPage: number;
+  };
+  fetching: boolean;
+  selectedUrl: string;
 }
 
-// Define the initial state using that type
 const initialState: AppState = {
-  loading: true
-}
+  loading: true,
+  selectedCategory: 'films',
+  categories: [
+    'films',
+    'people',
+    'planets',
+    'species',
+    'starships',
+    'vehicles',
+  ],
+  searchQuery: '',
+  films: {
+    count: 0,
+    next: '',
+    items: [],
+    totalPages: 1,
+    currentPage: 1,
+  },
+  people: {
+    count: 0,
+    next: '',
+    items: [],
+    totalPages: 1,
+    currentPage: 1,
+  },
+  planets: {
+    count: 0,
+    next: '',
+    items: [],
+    totalPages: 1,
+    currentPage: 1,
+  },
+  species: {
+    count: 0,
+    next: '',
+    items: [],
+    totalPages: 1,
+    currentPage: 1,
+  },
+  vehicles: {
+    count: 0,
+    next: '',
+    items: [],
+    totalPages: 1,
+    currentPage: 1,
+  },
+  starships: {
+    count: 0,
+    next: '',
+    items: [],
+    totalPages: 1,
+    currentPage: 1,
+  },
+  fetching: true,
+  selectedUrl: ''
+};
 
 export const appSlice = createSlice({
   name: 'app',
-  // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
     setAppLoading: (state, action: PayloadAction<boolean>) => {
-      state.loading = action.payload
-    }
+      state.loading = action.payload;
+    },
+    setSelectedCategory: (state, action: PayloadAction<categoriesType>) => {
+      state.selectedCategory = action.payload;
+    },
+    setFilmsPage: (state, action: PayloadAction<number>) => {
+      state.films.currentPage = action.payload;
+    },
+    setPeoplePage: (state, action: PayloadAction<number>) => {
+      state.people.currentPage = action.payload;
+    },
+    setPlanetsPage: (state, action: PayloadAction<number>) => {
+      state.planets.currentPage = action.payload;
+    },
+    setStarshipsPage: (state, action: PayloadAction<number>) => {
+      state.starships.currentPage = action.payload;
+    },
+    setSpeciesPage: (state, action: PayloadAction<number>) => {
+      state.species.currentPage = action.payload;
+    },
+    setVehiclesPage: (state, action: PayloadAction<number>) => {
+      state.vehicles.currentPage = action.payload;
+    },
+    setSearchQuery: (state, action: PayloadAction<string>) => {
+      state.searchQuery = action.payload;
+    },
+    setSelectedUrl: (state, action: PayloadAction<string>) => {
+      state.selectedUrl = action.payload;
+    },
   },
-})
+  extraReducers: (builder) => {
+    builder.addCase(getCategories.fulfilled, (state, action: any) => {
+      const { data } = action.payload;
+      const categories: any = Object.keys(data);
+      state.selectedCategory = 'films';
+      state.categories = categories;
+      state.fetching = false;
+    });
+    builder.addCase(getCategoryData.pending, (state, action) => {
+      state.fetching = true;
+    });
+    builder.addCase(getCategoryData.rejected, (state, action) => {
+      state.fetching = false;
+    });
+    builder.addCase(getCategoryData.fulfilled, (state, action: any) => {
+      const { results, next, count } = action.payload.data;
+      let selected = state.selectedCategory;
+      state.fetching = false;
+      state[selected].items = [...state[selected].items, ...results];
+      state[selected].next = next;
+      state[selected].count = count;
+      state[selected].totalPages = Math.ceil(count / 10);
+    });
+    builder.addCase(getCategoryNextPageData.pending, (state, action) => {
+      state.fetching = true;
+    });
+    builder.addCase(getCategoryNextPageData.rejected, (state, action) => {
+      state.fetching = false;
+    });
+    builder.addCase(getCategoryNextPageData.fulfilled, (state, action: any) => {
+      const { results } = action.payload.data;
+      let selected = state.selectedCategory;
+      state[selected].items = [...state[selected].items, ...results];
+      state.fetching = false;
+    });
+    builder.addCase(getCategoryDataBySearch.pending, (state, action: any) => {
+      let selected = state.selectedCategory;
+      state[selected].items = [];
+      state[selected].count = 0;
+      state[selected].currentPage = 1;
+      state[selected].totalPages = 1;
+      state.fetching = true;
+    });
+    builder.addCase(getCategoryDataBySearch.fulfilled, (state, action: any) => {
+      const { results, next, count } = action.payload.data;
+      let selected = state.selectedCategory;
+      state[selected].items = [...results];
+      state[selected].count = count;
+      state[selected].currentPage = 1;
+      state[selected].totalPages = Math.ceil(count / 10);
+      state.fetching = false;
+    });
+    builder.addCase(getCategoryDataBySearch.rejected, (state, action: any) => {
+      state.fetching = false;
+    });
+  },
+});
 
-export const { setAppLoading } = appSlice.actions
+export const {
+  setAppLoading,
+  setSelectedCategory,
+  setFilmsPage,
+  setPeoplePage,
+  setPlanetsPage,
+  setSpeciesPage,
+  setStarshipsPage,
+  setVehiclesPage,
+  setSearchQuery,
+  setSelectedUrl
+} = appSlice.actions;
 
-// Other code such as selectors can use the imported `RootState` type
-export const getAppLoading = (state: RootState) => state.app.loading
-export default appSlice.reducer
+export const getAppLoading = (state: RootState) => state.app.loading;
+export default appSlice.reducer;

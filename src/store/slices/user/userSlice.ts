@@ -10,8 +10,9 @@ interface UserState {
 
 // Define the initial state using that type
 const initialState: UserState = {
-  authorized: false
+  authorized: true
 }
+
 
 export const userSlice = createSlice({
   name: 'user',

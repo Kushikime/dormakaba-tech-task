@@ -1,22 +1,70 @@
-import React, { ReactElement, FC } from "react";
-import { Box, Typography } from "@mui/material";
-import { ProtectedRoute } from "./ProtectedRoute";
+import React, { ReactElement, FC, useEffect } from 'react';
+import { Box } from '@mui/material';
+import { ProtectedRoute } from './ProtectedRoute';
+import { setAppLoading } from '../store/slices/app/appSlice';
+import Filter from '../components/Filter';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import CardList from '../components/CardList';
+import FilmsList from '../components/FilmsList';
+import PeopleList from '../components/PeopleList';
+import PlanetsList from '../components/PlanetsList';
+import SpeciesList from '../components/SpeciesList';
+import StarshipsList from '../components/StarshipsList';
+import VehiclesList from '../components/VehiclesList';
 
 interface IDashboardPageProps {}
 
 const Dashboard: FC<IDashboardPageProps> = (): ReactElement => {
+  const dispatch = useAppDispatch();
+  const selectedCategory = useAppSelector((state) => state.app.selectedCategory)
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(setAppLoading(false));
+    }, 700);
+  }, []);
+
+
+  const renderList = () => {
+    if (selectedCategory === 'films') {
+      return <FilmsList />
+    }
+    if (selectedCategory === 'people') {
+      return <PeopleList />
+    }
+    if (selectedCategory === 'planets') {
+      return <PlanetsList />
+    }
+    if (selectedCategory === 'species') {
+      return <SpeciesList />
+    }
+    if (selectedCategory === 'starships') {
+      return <StarshipsList />
+    }
+    if (selectedCategory === 'vehicles') {
+      return <VehiclesList />
+    }
+  }
+
   return (
     <ProtectedRoute>
       <Box
         sx={{
           flexGrow: 1,
-          backgroundColor: "whitesmoke",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
+          width: '100%',
+          backgroundColor: 'white',
+          display: 'flex',
+          overflow: 'hidden',
+          flexDirection: 'column',
+          alignItems: 'center',
+          px: '25px',
+          py: '25px',
         }}
       >
-        <Typography variant="h3">Dashboard Page</Typography>
+        <Filter />
+        {
+          renderList()
+        }
       </Box>
     </ProtectedRoute>
   );

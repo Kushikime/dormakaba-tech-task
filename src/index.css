@@ -1,0 +1,37 @@
+@font-face {
+  font-family: 'poppins';
+  src: url('./assets/fonts/Poppins_Regular_400.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'poppinsSemi';
+  src: url('./assets/fonts/Poppins_SemiBold_600.ttf') format('truetype');
+}
+
+
+html, body, #root {
+  width: 100%;
+  min-height: 100%;
+  max-height: 100%;
+  overflow: 'hidden'
+  /* position: fixed; */
+}
+
+@keyframes fadeInLoop {
+  0%   {opacity: 0%;}
+  50%  {opacity: 100%;}
+  100%  {opacity: 0%;}
+}
+
+@keyframes fadeOut {
+  0%   {opacity: 1;}
+  100%  {opacity: 0;z-index: -1;}
+}
+
+.animated * {
+  animation: 3s fadeInLoop infinite;
+}
+
+.animateFadeOut {
+  animation: 1s fadeOut forwards;
+}

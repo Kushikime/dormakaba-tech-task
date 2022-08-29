@@ -1,20 +1,40 @@
-import React, {ReactElement, FC} from "react";
-import {Box, Typography} from "@mui/material";
+import React, { ReactElement, FC, useEffect } from 'react';
+import { Box } from '@mui/material';
+import LoginForm from '../components/LoginForm';
+import { Navigate } from 'react-router-dom';
+import { setAppLoading } from '../store/slices/app/appSlice';
+import { useAppDispatch, useAppSelector } from '../hooks';
 
 interface ILoginPageProps {}
 
 const Login: FC<ILoginPageProps> = (props): ReactElement => {
-    return (
-        <Box sx={{
-            flexGrow: 1,
-            backgroundColor: 'whitesmoke',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center'
-        }}>
-            <Typography variant="h3">Login Page</Typography>
-        </Box>
-    );
+  const authorized = useAppSelector((state) => state.user.authorized);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(setAppLoading(false));
+    }, 700);
+  }, []);
+
+  if (authorized) {
+    return <Navigate to='/' />;
+  }
+  return (
+    <Box
+      sx={{
+        width: '100%',
+        height: '100vh',
+        flexGrow: 1,
+        backgroundColor: 'white',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <LoginForm />
+    </Box>
+  );
 };
 
 export default Login;
