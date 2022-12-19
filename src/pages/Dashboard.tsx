@@ -14,16 +14,9 @@ import VehiclesList from '../components/VehiclesList';
 interface IDashboardPageProps {}
 
 const Dashboard: FC<IDashboardPageProps> = (): ReactElement => {
-  const dispatch = useAppDispatch();
   const selectedCategory = useAppSelector(
     (state) => state.app.selectedCategory
   );
-
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch(setAppLoading(false));
-    }, 700);
-  }, []);
 
   const renderList = () => {
     if (selectedCategory === 'films') {
@@ -47,7 +40,6 @@ const Dashboard: FC<IDashboardPageProps> = (): ReactElement => {
   };
 
   return (
-    <ProtectedRoute>
       <Box
         sx={{
           flexGrow: 1,
@@ -65,7 +57,6 @@ const Dashboard: FC<IDashboardPageProps> = (): ReactElement => {
         <Filter />
         {renderList()}
       </Box>
-    </ProtectedRoute>
   );
 };
 

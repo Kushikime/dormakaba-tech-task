@@ -38,7 +38,6 @@ const Details: FC<IDetailsPageProps> = (): ReactElement => {
   }, [url]);
 
   return (
-    <ProtectedRoute>
       <Box
         sx={{
           flexGrow: 1,
@@ -120,7 +119,6 @@ const Details: FC<IDetailsPageProps> = (): ReactElement => {
           )}
         </Box>
       </Box>
-    </ProtectedRoute>
   );
 };
 

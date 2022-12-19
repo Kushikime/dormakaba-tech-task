@@ -8,7 +8,6 @@ import { useAppDispatch, useAppSelector } from '../hooks';
 interface ILoginPageProps {}
 
 const Login: FC<ILoginPageProps> = (props): ReactElement => {
-  const authorized = useAppSelector((state) => state.user.authorized);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -16,10 +15,7 @@ const Login: FC<ILoginPageProps> = (props): ReactElement => {
       dispatch(setAppLoading(false));
     }, 700);
   }, []);
-
-  if (authorized) {
-    return <Navigate to='/' />;
-  }
+  
   return (
     <Box
       sx={{

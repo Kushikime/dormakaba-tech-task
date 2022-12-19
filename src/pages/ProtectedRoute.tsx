@@ -1,19 +1,25 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useEffect } from 'react';
 import { FC } from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAppSelector } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { setAppLoading } from '../store/slices/app/appSlice';
 
-interface IProtectedPageProps {}
 
-export const ProtectedRoute: FC<PropsWithChildren<IProtectedPageProps>> = (
-  props
-): any => {
-  const { children } = props;
+export const ProtectedRoute: FC<PropsWithChildren> = (
+  { children }
+) => {
 
+  const dispatch = useAppDispatch();
   const authorized = useAppSelector((state) => state.user.authorized);
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(setAppLoading(false));
+    }, 1000);
+  }, []);
 
   if (!authorized) {
     return <Navigate to='/login' />;
   }
-  return children;
+  return <>{children}</>;
 };
